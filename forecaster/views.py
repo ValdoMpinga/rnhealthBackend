@@ -12,6 +12,7 @@ from konst import Constant,Constants
 import os
 from django.conf import settings
 from keras.models import load_model
+from django.http import QueryDict
 
 zahours = Constants(
     Constant(hour1="hour1"),
@@ -31,7 +32,7 @@ class ForecastView(View):
 
         if hoursSerealizer.is_valid():
             ForecastView.hours = hoursSerealizer
-
+            print('submitted data: ', ForecastView.hours.data)
             return Response(status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -40,14 +41,19 @@ class ForecastView(View):
     def forecasts(request):
 
         forecastDict = {}
-        lstm_Serealizer = LSTM_Serealizer(data=request.data, many=True)
         
+        # print(request.data)
+        lstm_Serealizer = LSTM_Serealizer(data=request.data, many=True)
+                
+        print(request.data)
         if lstm_Serealizer.is_valid():
+            
             print("LSTM data is valid", os.getcwd())
-
-            lstmDataDic = serealizerListToDict(lstm_Serealizer)
+            
+            lstmDataDic = serealizerListToDict(lstm_Serealizer) 
             parsedHours = dict(ForecastView.hours.data)
             
+           
             for key, value in parsedHours.items():
                 match key:
                     case "hour1":
@@ -91,11 +97,6 @@ class ForecastView(View):
             print("LSTM data is invalid", os.getcwd())
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        # forecast = ForecastSerealizer(LSTM_forecaster()).data
-        # serealizedData = ForecastSerealizer(forecast)
-        # return JsonResponse(serealizedData.data,safe=False)
-
-
 def forecasterHelper(lags, lstm_Serealizer, filePath):
     measurementsLagArray = [[]]  # necessary shape to make the forecasts
     measureArray = []
@@ -116,7 +117,15 @@ def forecasterHelper(lags, lstm_Serealizer, filePath):
 
 def serealizerListToDict(list):
     measurmentsDict = []
-    for i in range(len(list.data)):
-        measurmentsDict.append(dict(list.data[i]))
+    
+    try:
+        for i in range(len(list.data)):
+            print('bellow loop: ')
+            print(list.data[i])
+            measurmentsDict.append(dict(list.data[i]))
+        
+        return measurmentsDict
 
-    return measurmentsDict
+    except:
+        print("Something went wrong on serealizerListToDict function ")
+   

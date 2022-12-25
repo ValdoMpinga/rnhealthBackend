@@ -6,6 +6,9 @@ from .LSTM_Serealizer import LSTM_Serealizer
 from keras.models import load_model
 from unittest import skip
 from .forecastingHoursSerealizer import HoursSerealizer
+from datetime import date
+import time
+
 # Create your tests here.
 
 
@@ -176,6 +179,8 @@ class ForecastingTests(TestCase):
         print(forecastDict)
         self.assertIsNotNone(forecastDict)
 
+    
+    @skip("Its tested")
     def test_dataSerealizing(self):
         hours = {
             "hour1": True,
@@ -189,6 +194,7 @@ class ForecastingTests(TestCase):
         print(hoursSerealizer)
         self.assertIsNotNone(hoursSerealizer)
 
+    @skip("Its tested")
     def test_serealizedDataIteration(self):
         hours = {
             "hour1": True,
@@ -286,3 +292,12 @@ class ForecastingTests(TestCase):
             self.assertIsNotNone(measurmentsDict)
 
 
+    def test_sensorDataFetch(self):
+        nineHoursInMilliseconds = 32400000
+        obj = time.gmtime(0)
+        epoch = time.asctime(obj)
+        print("The epoch is:",epoch)
+        curr_time = round(time.time()*1000)
+        print("Milliseconds since epoch:",curr_time)
+        print("Milliseconds - 9 hours epoch:",
+              curr_time - nineHoursInMilliseconds)
