@@ -1,38 +1,24 @@
 from django.shortcuts import render
 from .algorithms.lstm.lstmHandler import LSTM_forecaster
-from .LSTM_Serealizer import LSTM_Serealizer
+from .MeasurementsSerealizer import MeasurementsSerealizer
 from .forecastingHoursSerealizer import HoursSerealizer
-from django.http import HttpResponse
 from django.views import View
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-import json
-from konst import Constant, Constants
 import os
 from django.conf import settings
 from keras.models import load_model
-from django.http import QueryDict
-
-zahours = Constants(
-    Constant(hour1="hour1"),
-    Constant(hour2="hour2"),
-    Constant(hour3="hour3"),
-    Constant(hour4="hour4"),
-    Constant(hour5="hour5"),
-    Constant(hour6="hour6")
-)
-
 
 class ForecastViewClass(View):
     hours = {}
 
     @api_view(['POST'])
     def forecastingHoursView(request):
-        hoursSerealizer = HoursSerealizer(data=request.data)
+        serealizedHours = HoursSerealizer(data=request.data)
 
-        if hoursSerealizer.is_valid():
-            ForecastViewClass.hours = hoursSerealizer
+        if serealizedHours.is_valid():
+            ForecastViewClass.hours = serealizedHours
             print('submitted data: ', ForecastViewClass.hours.data)
             return Response(status=status.HTTP_200_OK)
         else:
@@ -43,13 +29,14 @@ class ForecastViewClass(View):
 
         forecasts = []
 
-        lstm_Serealizer = LSTM_Serealizer(data=request.data, many=True)
+        serealizedMeasurements = MeasurementsSerealizer(
+            data=request.data, many=True)
 
-        if lstm_Serealizer.is_valid():
+        if serealizedMeasurements.is_valid():
 
             print("LSTM data is valid", os.getcwd())
 
-            lstmDataDic = serealizerListToDict(lstm_Serealizer)
+            lstmDataDic = serealizerListToDict(serealizedMeasurements)
             parsedHours = dict(ForecastViewClass.hours.data)
 
             for key, value in parsedHours.items():
@@ -132,12 +119,12 @@ class ForecastViewClass(View):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-def forecaster(lags, lstm_Serealizer, AI_modelFilePath):
+def forecaster(lags, serealizedMeasurements, AI_modelFilePath):
     measurementsLagArray = [[]]  # necessary shape to make the forecasts
     measureArray = []
 
     for i in range(lags):  # range value is the model lag
-        for measure in lstm_Serealizer[i].values():
+        for measure in serealizedMeasurements[i].values():
             measureArray.append(measure)
 
         measurementsLagArray[0].append(measureArray.copy())

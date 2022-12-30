@@ -2,7 +2,7 @@ from django.test import TestCase
 import os
 from os.path import exists
 from django.conf import settings
-from .LSTM_Serealizer import LSTM_Serealizer
+from .MeasurementsSerealizer import LSTM_Serealizer
 from keras.models import load_model
 from unittest import skip
 from .forecastingHoursSerealizer import HoursSerealizer

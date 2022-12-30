@@ -17,11 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from forecaster.views import ForecastViewClass
+from users.views import UsersViewClass
 
 router = routers.DefaultRouter()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('forecast/hours', ForecastViewClass.forecastingHoursView),
-    path('forecast',ForecastViewClass.forecastView)
+    path('forecast',ForecastViewClass.forecastView),
+    
+    path('user/create', UsersViewClass.createUserView),
+    path('user/create/address', UsersViewClass.createUserAddressView)
 ]
