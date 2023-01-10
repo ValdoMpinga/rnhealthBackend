@@ -2,7 +2,7 @@ from django.test import TestCase
 import os
 from os.path import exists
 from django.conf import settings
-from .MeasurementsSerealizer import LSTM_Serealizer
+from .MeasurementsSerealizer import MeasurementsSerealizer
 from keras.models import load_model
 from unittest import skip
 from .forecastingHoursSerealizer import HoursSerealizer
@@ -12,7 +12,7 @@ import time
 # Create your tests here.
 
 
-def forecasterHelper(lags, measurementsDict, filePath):
+def forecaster(lags, measurementsDict, filePath):
     measurementsLagArray = [[]]  # necessary shape to make the forecasts
     measureArray = []
 
@@ -30,10 +30,9 @@ def forecasterHelper(lags, measurementsDict, filePath):
 
     return forecast[0][0]
 
-
 class ForecastingTests(TestCase):
 
-    @skip("Its tested")
+    # @skip("Its tested")
     def test_D001_sensorLSTModelExistence(self):
         # model = load_model(settings.BASE_DIR,+'./static/lstmModels/D001/1H_Forecast/1H_Forecast')
         model = load_model(os.path.join(
@@ -41,7 +40,7 @@ class ForecastingTests(TestCase):
 
         self.assertIsNotNone(model)
 
-    @skip("Its tested")
+    # @skip("Its tested")
     def test_D001_sigleSensorLSTModelForecast(self):
         model = load_model(os.path.join(
             settings.BASE_DIR, 'static\lstmModels\D001\\5H_Forecast\\5H_ForecastModel_7_SizeWindow'))
@@ -53,14 +52,12 @@ class ForecastingTests(TestCase):
             [20.70444444444444, 424.17555, 70.555555, 99.931444, 115.6666666],
             [20.662499, 336.94, 67.83333333333333, 99.97834, 96],
             [20.8654, 199.89727, 68.818181, 100.287727, 92.9090],
-            [20.8654, 199.89727, 68.818181, 100.287727, 92.9090],
-            [20.8654, 199.89727, 68.818181, 100.287727, 92.9090]
         ]])
 
         print("forecasted radon level: ", prediction)
         self.assertIsNotNone(prediction)
 
-    @skip("Its tested")
+    # @skip("Its tested")
     def test_multipleSensorsLSTModelsForecast(self):
         hoursDict = {
             "hour1": True,
@@ -142,45 +139,44 @@ class ForecastingTests(TestCase):
             match key:
                 case "hour1":
                     if shouldForecast == True:
-                        forecast = forecasterHelper(9, measurementsDict, 'hour1', os.path.join(
+                        forecast = forecaster(9, measurementsDict, os.path.join(
                             settings.BASE_DIR, 'static\lstmModels\D001\\1H_Forecast\\1H_ForecastModel_9_SizeWindow'))
                         forecastDict['hour1'] = forecast
 
                 case "hour2":
                     if shouldForecast == True:
-                        forecast = forecasterHelper(7, measurementsDict, 'hour2', os.path.join(
+                        forecast = forecaster(7, measurementsDict, os.path.join(
                             settings.BASE_DIR, 'static\lstmModels\D001\\2H_Forecast\\2H_ForecastModel_7_SizeWindow'))
                         forecastDict['hour2'] = forecast
 
                 case "hour3":
                     if shouldForecast == True:
-                        forecast = forecasterHelper(8, measurementsDict, 'hour3', os.path.join(
+                        forecast = forecaster(8, measurementsDict, os.path.join(
                             settings.BASE_DIR, 'static\lstmModels\D001\\3H_Forecast\\3H_ForecastModel_8_SizeWindow'))
                         forecastDict['hour3'] = forecast
 
                 case "hour4":
                     if shouldForecast == True:
-                        forecast = forecasterHelper(9, measurementsDict, 'hour4', os.path.join(
+                        forecast = forecaster(9, measurementsDict, os.path.join(
                             settings.BASE_DIR, 'static\lstmModels\D001\\4H_Forecast\\4H_ForecastModel_9_SizeWindow'))
                         forecastDict['hour4'] = forecast
 
                 case "hour5":
                     if shouldForecast == True:
-                        forecast = forecasterHelper(7, measurementsDict, 'hour5', os.path.join(
+                        forecast = forecaster(7, measurementsDict, os.path.join(
                             settings.BASE_DIR, 'static\lstmModels\D001\\5H_Forecast\\5H_ForecastModel_7_SizeWindow'))
                         forecastDict['hour5'] = forecast
 
                 case "hour6":
                     if shouldForecast == True:
-                        forecast = forecasterHelper(9, measurementsDict, 'hour6', os.path.join(
+                        forecast = forecaster(9, measurementsDict, os.path.join(
                             settings.BASE_DIR, 'static\lstmModels\D001\\6H_Forecast\\6H_ForecastModel_9_SizeWindow'))
                         forecastDict['hour6'] = forecast
 
         print(forecastDict)
         self.assertIsNotNone(forecastDict)
-
     
-    @skip("Its tested")
+    # @skip("Its tested")
     def test_dataSerealizing(self):
         hours = {
             "hour1": True,
@@ -194,7 +190,7 @@ class ForecastingTests(TestCase):
         print(hoursSerealizer)
         self.assertIsNotNone(hoursSerealizer)
 
-    @skip("Its tested")
+    # @skip("Its tested")
     def test_serealizedDataIteration(self):
         hours = {
             "hour1": True,
@@ -213,7 +209,7 @@ class ForecastingTests(TestCase):
             for value in hoursSerealizer.data.values():
                 print(value)
 
-    @skip("Its tested")
+    # @skip("Its tested")
     def test_serealizedArrayDataIteration(self):
         measurements = [
             {
@@ -281,7 +277,7 @@ class ForecastingTests(TestCase):
             }
         ]
         measurmentsDict = []
-        measurementsSerealizer = LSTM_Serealizer(data=measurements,many=True)
+        measurementsSerealizer = MeasurementsSerealizer(data=measurements,many=True)
         if measurementsSerealizer.is_valid():
             print(len(measurementsSerealizer.data))
             for i in range(len(measurementsSerealizer.data)):
@@ -290,7 +286,6 @@ class ForecastingTests(TestCase):
             
             print(measurmentsDict)
             self.assertIsNotNone(measurmentsDict)
-
 
     def test_sensorDataFetch(self):
         nineHoursInMilliseconds = 32400000

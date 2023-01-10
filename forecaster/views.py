@@ -143,6 +143,7 @@ def serealizerListToDict(list):
 
     try:
         for i in range(len(list.data)):
+            print(i, " -> ", dict(list.data[i]))
             measurmentsDict.append(dict(list.data[i]))
 
         return measurmentsDict
