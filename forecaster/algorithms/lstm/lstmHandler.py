@@ -1,26 +1,75 @@
 from keras.models import load_model
-import os
 from django.conf import settings
-from json import JSONDecoder
 
-def LSTM_forecaster():
-    model = load_model(os.path.join(
-        settings.BASE_DIR, 'static\lstmModels\D003\\1H_Forecast\\1H_ForecastModel_9_SizeWindow'))
-    prediction = model.predict(
-        [[
-            [33.945, 1328.05, 36, 101.5711667, 59.33333333],
-            [33.89833333,	1397.73, 35.83333333, 101.6226667, 58.83333333],
-            [33.62666667, 1395.76, 36.33333333,	101.638,	58.5],
-            [33.64333333, 1258.793333,	36.33333333,	101.6936667, 59],
-            [33.54333333,	1274.03,	36.16666667,	101.715, 58.16666667],
-            [33.44166667,	1261.158333, 35.83333333,	101.73, 58.16666667],
-            [33.46666667, 1233.271667,	36, 101.7415, 57.33333333],
-            [33.36,	1238.586, 36, 101.7366,	57.2],
-            [33.4, 1240.485, 36, 101.7616667, 57.33333333],
-        ]]
-    )
+def lstmSensorsModelsDetails():
+    details = {
+        'D001':
+            [
+                {
+                    'hour': 1,
+                    'bestLag': 6,
+                    'error': 33.95,
 
-    prediction = ((prediction[0])[0]).item()
-    prediction = {'forecast': prediction}
+                },
+                {
+                    'hour': 2,
+                    'bestLag': 12,
+                    'error': 55.63,
+                },
+                {
+                    'hour': 3,
+                    'bestLag': 6,
+                    'error': 68.11,
+                },
+                {
+                    'hour': 4,
+                    'bestLag': 6,
+                    'error': 84.85,
+                },
+                {
+                    'hour': 5,
+                    'bestLag': 7,
+                    'error': 96.67,
+                },
+                {
+                    'hour': 6,
+                    'bestLag': 6,
+                    'error': 107.24,
+                }],
+        'D003':
+            [
+                {
+                    'hour': 1,
+                    'bestLag': 10,
+                    'error': 52,
+
+                },
+                {
+                    'hour': 2,
+                    'bestLag': 10,
+                    'error': 92.58,
+                },
+                {
+                    'hour': 3,
+                    'bestLag': 12,
+                    'error': 112.21,
+                },
+                {
+                    'hour': 4,
+                    'bestLag': 12,
+                    'error': 121.82,
+                },
+                {
+                    'hour': 5,
+                    'bestLag': 11,
+                    'error': 123.75,
+                },
+                {
+                    'hour': 6,
+                    'bestLag': 6,
+                    'error': 139.27,
+                }
+            ]
+    }
     
-    return prediction
+    return details

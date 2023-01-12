@@ -8,6 +8,7 @@ from unittest import skip
 from .forecastingHoursSerealizer import HoursSerealizer
 from datetime import date
 import time
+from .algorithms.lstm.lstmHandler import lstmSensorsModelsDetails
 
 # Create your tests here.
 
@@ -29,6 +30,7 @@ def forecaster(lags, measurementsDict, filePath):
     measurementsLagArray.clear()
 
     return forecast[0][0]
+
 
 class ForecastingTests(TestCase):
 
@@ -175,7 +177,7 @@ class ForecastingTests(TestCase):
 
         print(forecastDict)
         self.assertIsNotNone(forecastDict)
-    
+
     # @skip("Its tested")
     def test_dataSerealizing(self):
         hours = {
@@ -277,13 +279,13 @@ class ForecastingTests(TestCase):
             }
         ]
         measurmentsDict = []
-        measurementsSerealizer = MeasurementsSerealizer(data=measurements,many=True)
+        measurementsSerealizer = MeasurementsSerealizer(
+            data=measurements, many=True)
         if measurementsSerealizer.is_valid():
             print(len(measurementsSerealizer.data))
             for i in range(len(measurementsSerealizer.data)):
                 measurmentsDict.append(dict(measurementsSerealizer.data[i]))
-            
-            
+
             print(measurmentsDict)
             self.assertIsNotNone(measurmentsDict)
 
@@ -291,8 +293,33 @@ class ForecastingTests(TestCase):
         nineHoursInMilliseconds = 32400000
         obj = time.gmtime(0)
         epoch = time.asctime(obj)
-        print("The epoch is:",epoch)
+        print("The epoch is:", epoch)
         curr_time = round(time.time()*1000)
-        print("Milliseconds since epoch:",curr_time)
+        print("Milliseconds since epoch:", curr_time)
         print("Milliseconds - 9 hours epoch:",
               curr_time - nineHoursInMilliseconds)
+
+    def test_getSensorsDetails(self):
+        details = lstmSensorsModelsDetails()
+        D001_details = details['D001']
+        print(D001_details)
+        # print("Details: \n", D001_details)
+        # print("Details: \n", D001_details['D001'][0]['error'])
+
+        # self.assertIsNotNone(D001_details['D001'])
+
+    def test_modelOpeningWithConcat(self):
+        D001_details = lstmSensorsModelsDetails()
+        print("Details: \n", D001_details['D001'])
+        print("Details: \n", D001_details['D001'][0]['error'])
+
+        self.assertIsNotNone(D001_details['D001'])
+        # model = load_model(settings.BASE_DIR,+'./static/lstmModels/D001/1H_Forecast/1H_Forecast')
+        # model = load_model(os.path.join(
+        #     settings.BASE_DIR, 'static\lstmModels\D003\\1H_Forecast\\1H_ForecastModel_', D001_details['D001'][0]['bestLag'] ,'_SizeWindow'))
+        print(type(D001_details['D001'][0]['bestLag']))
+        model = load_model(os.path.join(settings.BASE_DIR, "static\lstmModels\D003\\1H_Forecast\\1H_ForecastModel_{}_SizeWindow".format(D001_details['D001'][0]['bestLag'])))
+        print(model)
+        
+        self.assertIsNotNone(model)
+
