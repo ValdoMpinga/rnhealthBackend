@@ -259,7 +259,7 @@ def forecaster(lags, serealizedMeasurements, AI_modelFilePath):
 
         measurementsLagArray[0].append(measureArray.copy())
         measureArray.clear()
-
+        
     model = load_model(os.path.join(
         settings.BASE_DIR, AI_modelFilePath))
     forecast = model.predict(measurementsLagArray)
