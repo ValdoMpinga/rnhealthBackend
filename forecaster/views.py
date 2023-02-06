@@ -58,9 +58,11 @@ class ForecastViewClass(View):
             for key, value in parsedHours.items():
                 match key:
                     case "hour1":
+                        filePath = os.path.join(
+                            settings.BASE_DIR, "static\lstmModels\{}\\1H_Forecast\\1H_ForecastModel_{}_SizeWindow".format(ForecastViewClass.targetSensor.data['targetSensor'], str(targetSensorDetails[0]['bestLag'])))
                         if value == True:
-                            forecast = forecaster(targetSensorDetails[0]['bestLag'], lstmDataDic, os.path.join(
-                                settings.BASE_DIR, "static\lstmModels\D001\\1H_Forecast\\1H_ForecastModel_{}_SizeWindow".format(targetSensorDetails[0]['bestLag'])))
+                            forecast = forecaster(
+                                targetSensorDetails[0]['bestLag'], lstmDataDic, filePath)
                             forecasts.append(
                                 {
                                     'hour': 'Hour 1',
@@ -72,8 +74,12 @@ class ForecastViewClass(View):
 
                     case "hour2":
                         if value == True:
-                            forecast = forecaster(targetSensorDetails[1]['bestLag'], lstmDataDic, os.path.join(
-                                settings.BASE_DIR, 'static\lstmModels\D001\\2H_Forecast\\2H_ForecastModel_{}_SizeWindow'.format(targetSensorDetails[1]['bestLag'])))
+                            filePath = os.path.join(
+                                settings.BASE_DIR, "static\lstmModels\{}\\2H_Forecast\\2H_ForecastModel_{}_SizeWindow".format(
+                                    ForecastViewClass.targetSensor.data['targetSensor'], targetSensorDetails[1]['bestLag']))
+
+                            forecast = forecaster(
+                                targetSensorDetails[1]['bestLag'], lstmDataDic, filePath)
                             forecasts.append(
                                 {
                                     'hour': 'Hour 2',
@@ -86,8 +92,11 @@ class ForecastViewClass(View):
 
                     case "hour3":
                         if value == True:
-                            forecast = forecaster(targetSensorDetails[2]['bestLag'], lstmDataDic, os.path.join(
-                                settings.BASE_DIR, 'static\lstmModels\D001\\3H_Forecast\\3H_ForecastModel_{}_SizeWindow'.format(targetSensorDetails[2]['bestLag'])))
+                            filePath = os.path.join(
+                                settings.BASE_DIR, 'static\lstmModels\{}\\3H_Forecast\\3H_ForecastModel_{}_SizeWindow'.format(ForecastViewClass.targetSensor.data['targetSensor'], targetSensorDetails[2]['bestLag']))
+
+                            forecast = forecaster(
+                                targetSensorDetails[2]['bestLag'], lstmDataDic, filePath)
                             forecasts.append(
                                 {
                                     'hour': 'Hour 3',
@@ -100,8 +109,10 @@ class ForecastViewClass(View):
 
                     case "hour4":
                         if value == True:
-                            forecast = forecaster(targetSensorDetails[3]['bestLag'], lstmDataDic,  os.path.join(
-                                settings.BASE_DIR, 'static\lstmModels\D001\\4H_Forecast\\4H_ForecastModel_{}_SizeWindow'.format(targetSensorDetails[3]['bestLag'])))
+                            filePath = os.path.join(
+                                settings.BASE_DIR, 'static\lstmModels\{}\\4H_Forecast\\4H_ForecastModel_{}_SizeWindow'.format(ForecastViewClass.targetSensor.data['targetSensor'], targetSensorDetails[3]['bestLag']))
+                            forecast = forecaster(
+                                targetSensorDetails[3]['bestLag'], lstmDataDic, filePath)
                             forecasts.append(
                                 {
                                     'hour': 'Hour 4',
@@ -114,8 +125,11 @@ class ForecastViewClass(View):
 
                     case "hour5":
                         if value == True:
-                            forecast = forecaster(targetSensorDetails[4]['bestLag'], lstmDataDic, os.path.join(
-                                settings.BASE_DIR, 'static\lstmModels\D001\\5H_Forecast\\5H_ForecastModel_{}_SizeWindow'.format(targetSensorDetails[4]['bestLag'])))
+                            filePath = os.path.join(
+                                settings.BASE_DIR, 'static\lstmModels\{}\\5H_Forecast\\5H_ForecastModel_{}_SizeWindow'.format(ForecastViewClass.targetSensor.data['targetSensor'], targetSensorDetails[4]['bestLag']))
+
+                            forecast = forecaster(
+                                targetSensorDetails[4]['bestLag'], lstmDataDic, filePath)
                             forecasts.append(
                                 {
                                     'hour': 'Hour 5',
@@ -128,8 +142,11 @@ class ForecastViewClass(View):
 
                     case "hour6":
                         if value == True:
-                            forecast = forecaster(targetSensorDetails[5]['bestLag'], lstmDataDic, os.path.join(
-                                settings.BASE_DIR, 'static\lstmModels\D001\\6H_Forecast\\6H_ForecastModel_{}_SizeWindow'.format(targetSensorDetails[5]['bestLag'])))
+                            filePath = os.path.join(
+                                settings.BASE_DIR, 'static\lstmModels\{}\\6H_Forecast\\6H_ForecastModel_{}_SizeWindow'.format(ForecastViewClass.targetSensor.data['targetSensor'], targetSensorDetails[5]['bestLag']))
+
+                            forecast = forecaster(
+                                targetSensorDetails[5]['bestLag'], lstmDataDic, filePath)
                             forecasts.append(
                                 {
                                     'hour': 'Hour 6',
@@ -164,8 +181,11 @@ class ForecastViewClass(View):
                 match key:
                     case "hour1":
                         if value == True:
-                            forecast = forecaster(targetSensorDetails[0]['bestLag'], lstmDataDic, os.path.join(
-                                settings.BASE_DIR, "static\\bi_lstmModels\D001\\1H_Forecast\\1H_ForecastModel_{}_SizeWindow".format(targetSensorDetails[0]['bestLag'])))
+                            filePath = os.path.join(
+                                settings.BASE_DIR, "static\\bi_lstmModels\{}\\1H_Forecast\\1H_ForecastModel_{}_SizeWindow".format(ForecastViewClass.targetSensor.data['targetSensor'], targetSensorDetails[0]['bestLag']))
+
+                            forecast = forecaster(
+                                targetSensorDetails[0]['bestLag'], lstmDataDic, filePath)
                             forecasts.append(
                                 {
                                     'hour': 'Hour 1',
@@ -177,8 +197,11 @@ class ForecastViewClass(View):
 
                     case "hour2":
                         if value == True:
-                            forecast = forecaster(targetSensorDetails[1]['bestLag'], lstmDataDic, os.path.join(
-                                settings.BASE_DIR, 'static\\bi_lstmModels\D001\\2H_Forecast\\2H_ForecastModel_{}_SizeWindow'.format(targetSensorDetails[1]['bestLag'])))
+                            filePath = os.path.join(
+                                settings.BASE_DIR, 'static\\bi_lstmModels\{}\\2H_Forecast\\2H_ForecastModel_{}_SizeWindow'.format(ForecastViewClass.targetSensor.data['targetSensor'], targetSensorDetails[1]['bestLag']))
+
+                            forecast = forecaster(
+                                targetSensorDetails[1]['bestLag'], lstmDataDic, filePath)
                             forecasts.append(
                                 {
                                     'hour': 'Hour 2',
@@ -191,8 +214,11 @@ class ForecastViewClass(View):
 
                     case "hour3":
                         if value == True:
-                            forecast = forecaster(targetSensorDetails[2]['bestLag'], lstmDataDic, os.path.join(
-                                settings.BASE_DIR, 'static\\bi_lstmModels\D001\\3H_Forecast\\3H_ForecastModel_{}_SizeWindow'.format(targetSensorDetails[2]['bestLag'])))
+                            filePath = os.path.join(
+                                settings.BASE_DIR, 'static\\bi_lstmModels\{}\\3H_Forecast\\3H_ForecastModel_{}_SizeWindow'.format(ForecastViewClass.targetSensor.data['targetSensor'], targetSensorDetails[2]['bestLag']))
+
+                            forecast = forecaster(
+                                targetSensorDetails[2]['bestLag'], lstmDataDic, filePath)
                             forecasts.append(
                                 {
                                     'hour': 'Hour 3',
@@ -205,8 +231,11 @@ class ForecastViewClass(View):
 
                     case "hour4":
                         if value == True:
-                            forecast = forecaster(targetSensorDetails[3]['bestLag'], lstmDataDic,  os.path.join(
-                                settings.BASE_DIR, 'static\\bi_lstmModels\D001\\4H_Forecast\\4H_ForecastModel_{}_SizeWindow'.format(targetSensorDetails[3]['bestLag'])))
+                            filePath = os.path.join(
+                                settings.BASE_DIR, 'static\\bi_lstmModels\{}\\4H_Forecast\\4H_ForecastModel_{}_SizeWindow'.format(ForecastViewClass.targetSensor.data['targetSensor'], targetSensorDetails[3]['bestLag']))
+
+                            forecast = forecaster(
+                                targetSensorDetails[3]['bestLag'], lstmDataDic, filePath)
                             forecasts.append(
                                 {
                                     'hour': 'Hour 4',
@@ -219,8 +248,10 @@ class ForecastViewClass(View):
 
                     case "hour5":
                         if value == True:
-                            forecast = forecaster(targetSensorDetails[4]['bestLag'], lstmDataDic, os.path.join(
-                                settings.BASE_DIR, 'static\\bi_lstmModels\D001\\5H_Forecast\\5H_ForecastModel_{}_SizeWindow'.format(targetSensorDetails[4]['bestLag'])))
+                            filePath = os.path.join(
+                                settings.BASE_DIR, 'static\\bi_lstmModels\{}\\5H_Forecast\\5H_ForecastModel_{}_SizeWindow'.format(ForecastViewClass.targetSensor.data['targetSensor'], targetSensorDetails[4]['bestLag']))
+                            forecast = forecaster(
+                                targetSensorDetails[4]['bestLag'], lstmDataDic, filePath)
                             forecasts.append(
                                 {
                                     'hour': 'Hour 5',
@@ -233,8 +264,11 @@ class ForecastViewClass(View):
 
                     case "hour6":
                         if value == True:
-                            forecast = forecaster(targetSensorDetails[5]['bestLag'], lstmDataDic, os.path.join(
-                                settings.BASE_DIR, 'static\\bi_lstmModels\D001\\6H_Forecast\\6H_ForecastModel_{}_SizeWindow'.format(targetSensorDetails[5]['bestLag'])))
+                            filePath = os.path.join(
+                                settings.BASE_DIR, 'static\\bi_lstmModels\{}\\6H_Forecast\\6H_ForecastModel_{}_SizeWindow'.format(ForecastViewClass.targetSensor.data['targetSensor'], targetSensorDetails[5]['bestLag']))
+
+                            forecast = forecaster(
+                                targetSensorDetails[5]['bestLag'], lstmDataDic, filePath)
                             forecasts.append(
                                 {
                                     'hour': 'Hour 6',
@@ -259,7 +293,7 @@ def forecaster(lags, serealizedMeasurements, AI_modelFilePath):
 
         measurementsLagArray[0].append(measureArray.copy())
         measureArray.clear()
-        
+
     model = load_model(os.path.join(
         settings.BASE_DIR, AI_modelFilePath))
     forecast = model.predict(measurementsLagArray)
