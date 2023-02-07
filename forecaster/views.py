@@ -41,7 +41,7 @@ class ForecastViewClass(View):
     @api_view(['POST'])
     def lstmForecastView(request):
 
-        forecasts = []
+        forecasts = []   
         sensorsDetails = lstmSensorsModelsDetails()
         targetSensorDetails = sensorsDetails[ForecastViewClass.targetSensor.data['targetSensor']]
 
