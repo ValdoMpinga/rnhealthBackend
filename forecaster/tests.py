@@ -2,7 +2,7 @@ from django.test import TestCase
 import os
 from os.path import exists
 from django.conf import settings
-from .MeasurementsSerealizer import MeasurementsSerealizer
+from .MeasurementsSerializer import MeasurementsSerealizer
 from keras.models import load_model
 from unittest import skip
 from .forecastingHoursSerealizer import HoursSerealizer
@@ -571,6 +571,15 @@ class NormalizationTests(TestCase):
             [20.70444444444444, 424.17555, 70.555555, 99.931444, 115.6666666],
             [20.662499, 336.94, 67.83333333333333, 99.97834, 96],
         ]]
+        
+        [[
+          [22.2, 1021.21, 46.6, 100.02, 200.2], 
+          [22.2, 1021.21, 46.6, 100.02, 200.2],
+          [22.2, 1021.21, 46.6, 100.02, 200.2],
+          [22.2, 1021.21, 46.6, 100.02, 200.2], 
+          [22.2, 1021.21, 46.6, 100.02, 200.2], 
+          [22.2, 1021.21, 46.6, 100.02, 200.2]
+          ]]
         means = [df['T'].mean(), df['Rn'].mean(), df['H'].mean(),
                  df['P'].mean(), df['CO2'].mean()]
         stds = [df['T'].std(), df['Rn'].std(), df['H'].std(),
