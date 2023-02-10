@@ -24,7 +24,6 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    path('forecast/hours', ForecastViewClass.forecastingHoursView),
     path('forecast/lstm',ForecastViewClass.lstmForecastView),
     path('forecast/bi-lstm', ForecastViewClass.bi_lstmForecastView),
     path('forecast/target-sensor', ForecastViewClass.targetSensorView),

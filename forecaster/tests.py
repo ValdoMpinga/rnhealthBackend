@@ -149,14 +149,14 @@ class ForecastingTests(TestCase):
     def test_D001_sensorLSTModelExistence(self):
         # model = load_model(settings.BASE_DIR,+'./static/lstmModels/D001/1H_Forecast/1H_Forecast')
         model = load_model(os.path.join(
-            settings.BASE_DIR, 'static\lstmModels\D003\\1H_Forecast\\1H_ForecastModel_9_SizeWindow'))
+            settings.BASE_DIR, 'static/lstmModels/D003//1H_Forecast//1H_ForecastModel_9_SizeWindow'))
 
         self.assertIsNotNone(model)
 
     @skip("Its tested")
     def test_D001_sigleSensorLSTModelForecast(self):
         model = load_model(os.path.join(
-            settings.BASE_DIR, 'static\lstmModels\D001\\5H_Forecast\\5H_ForecastModel_7_SizeWindow'))
+            settings.BASE_DIR, 'static/lstmModels/D001//5H_Forecast//5H_ForecastModel_7_SizeWindow'))
         prediction = model.predict(
             [[
                 [21.24499, 375.18, 86,  99.924, 110],
@@ -255,37 +255,37 @@ class ForecastingTests(TestCase):
                 case "hour1":
                     if shouldForecast == True:
                         forecast = forecaster(9, measurementsDict, os.path.join(
-                            settings.BASE_DIR, 'static\lstmModels\D001\\1H_Forecast\\1H_ForecastModel_9_SizeWindow'))
+                            settings.BASE_DIR, 'static/lstmModels/D001//1H_Forecast//1H_ForecastModel_9_SizeWindow'))
                         forecastDict['hour1'] = forecast
 
                 case "hour2":
                     if shouldForecast == True:
                         forecast = forecaster(7, measurementsDict, os.path.join(
-                            settings.BASE_DIR, 'static\lstmModels\D001\\2H_Forecast\\2H_ForecastModel_7_SizeWindow'))
+                            settings.BASE_DIR, 'static/lstmModels/D001//2H_Forecast//2H_ForecastModel_7_SizeWindow'))
                         forecastDict['hour2'] = forecast
 
                 case "hour3":
                     if shouldForecast == True:
                         forecast = forecaster(8, measurementsDict, os.path.join(
-                            settings.BASE_DIR, 'static\lstmModels\D001\\3H_Forecast\\3H_ForecastModel_8_SizeWindow'))
+                            settings.BASE_DIR, 'static/lstmModels/D001//3H_Forecast//3H_ForecastModel_8_SizeWindow'))
                         forecastDict['hour3'] = forecast
 
                 case "hour4":
                     if shouldForecast == True:
                         forecast = forecaster(9, measurementsDict, os.path.join(
-                            settings.BASE_DIR, 'static\lstmModels\D001\\4H_Forecast\\4H_ForecastModel_9_SizeWindow'))
+                            settings.BASE_DIR, 'static/lstmModels/D001//4H_Forecast//4H_ForecastModel_9_SizeWindow'))
                         forecastDict['hour4'] = forecast
 
                 case "hour5":
                     if shouldForecast == True:
                         forecast = forecaster(7, measurementsDict, os.path.join(
-                            settings.BASE_DIR, 'static\lstmModels\D001\\5H_Forecast\\5H_ForecastModel_7_SizeWindow'))
+                            settings.BASE_DIR, 'static/lstmModels/D001//5H_Forecast//5H_ForecastModel_7_SizeWindow'))
                         forecastDict['hour5'] = forecast
 
                 case "hour6":
                     if shouldForecast == True:
                         forecast = forecaster(9, measurementsDict, os.path.join(
-                            settings.BASE_DIR, 'static\lstmModels\D001\\6H_Forecast\\6H_ForecastModel_9_SizeWindow'))
+                            settings.BASE_DIR, 'static/lstmModels/D001//6H_Forecast//6H_ForecastModel_9_SizeWindow'))
                         forecastDict['hour6'] = forecast
 
         print(forecastDict)
@@ -419,23 +419,23 @@ class ForecastingTests(TestCase):
         details = lstmSensorsModelsDetails()
         D001_details = details['D001']
         print(D001_details)
-        print("Details: \n", D001_details)
-        print("Details: \n", D001_details['D001'][0]['error'])
+        print("Details: /n", D001_details)
+        print("Details: /n", D001_details['D001'][0]['error'])
 
         self.assertIsNotNone(D001_details['D001'])
 
     @skip("Its tested")
     def test_modelOpeningWithConcat(self):
         D001_details = lstmSensorsModelsDetails()
-        print("Details: \n", D001_details['D001'])
-        print("Details: \n", D001_details['D001'][0]['error'])
+        print("Details: /n", D001_details['D001'])
+        print("Details: /n", D001_details['D001'][0]['error'])
 
         self.assertIsNotNone(D001_details['D001'])
         # model = load_model(settings.BASE_DIR,+'./static/lstmModels/D001/1H_Forecast/1H_Forecast')
         # model = load_model(os.path.join(
-        #     settings.BASE_DIR, 'static\lstmModels\D003\\1H_Forecast\\1H_ForecastModel_', D001_details['D001'][0]['bestLag'] ,'_SizeWindow'))
+        #     settings.BASE_DIR, 'static/lstmModels/D003//1H_Forecast//1H_ForecastModel_', D001_details['D001'][0]['bestLag'] ,'_SizeWindow'))
         print(type(D001_details['D001'][0]['bestLag']))
-        model = load_model(os.path.join(settings.BASE_DIR, "static\lstmModels\D003\\1H_Forecast\\1H_ForecastModel_{}_SizeWindow".format(
+        model = load_model(os.path.join(settings.BASE_DIR, "static/lstmModels/D003//1H_Forecast//1H_ForecastModel_{}_SizeWindow".format(
             D001_details['D001'][0]['bestLag'])))
         print(model)
 
@@ -446,14 +446,14 @@ class NormalizationTests(TestCase):
     @skip("Its tested")
     def test_normalizationDatasetExistence(self):
         filePath = os.path.join(
-            settings.BASE_DIR, 'static\datasets\interpolated_D003_data.csv')
+            settings.BASE_DIR, 'static/datasets/interpolated_D003_data.csv')
         df = pd.read_csv(filePath, encoding='utf-8')
         self.assertIsNotNone(df)
 
     @skip("Its tested")
     def test_scaledDataVisualization(self):
         filePath = os.path.join(
-            settings.BASE_DIR, 'static\datasets\interpolated_D003_data.csv')
+            settings.BASE_DIR, 'static/datasets/interpolated_D003_data.csv')
 
         df = pd.read_csv(filePath, encoding='utf-8')
         df = datasetCleaner(df)
@@ -462,10 +462,10 @@ class NormalizationTests(TestCase):
 
         print(normalized_df)
 
-    @skip("Its tested")
+    # @skip("Its tested")
     def test_reverseScaler(self):
         filePath = os.path.join(
-            settings.BASE_DIR, 'static\datasets\interpolated_D003_data.csv')
+            settings.BASE_DIR, 'static/datasets/interpolated_D003_data.csv')
 
         df = pd.read_csv(filePath, encoding='utf-8')
         df = datasetCleaner(df)
@@ -481,11 +481,11 @@ class NormalizationTests(TestCase):
     @skip("Its tested")
     def test_reverseScalePredictedData_vs_defaultPredictedDataOnCSV(self):
         filePath = os.path.join(
-            settings.BASE_DIR, 'static\datasets\interpolated_D003_data.csv')
+            settings.BASE_DIR, 'static/datasets/interpolated_D003_data.csv')
         nonNormalizedModel = load_model(os.path.join(
-            settings.BASE_DIR, 'static\lstmModels\D001\\1H_Forecast\\1H_ForecastModel_6_SizeWindow'))
+            settings.BASE_DIR, 'static/lstmModels/D001//1H_Forecast//1H_ForecastModel_6_SizeWindow'))
         normalizedModel = load_model(os.path.join(
-            settings.BASE_DIR, 'static\lstmModels\D001\\1H_Forecast\\normalized\\1H_ForecastModel_6_SizeWindow'))
+            settings.BASE_DIR, 'static/lstmModels/D001//1H_Forecast//normalized//1H_ForecastModel_6_SizeWindow'))
         df = pd.read_csv(filePath, encoding='utf-8')
         df = datasetCleaner(df)
 
@@ -502,7 +502,7 @@ class NormalizationTests(TestCase):
         test_predictionsDf = pd.DataFrame(test_predictions)
         y_testDf = pd.DataFrame(y_test)
         print(mean_absolute_error(test_predictionsDf, y_testDf))
-        print(test_predictionsDf)
+        # print(test_predictionsDf)
         pd.DataFrame(data={"Test predictions": test_predictionsDf[0], "Actual": y_testDf[0]}).to_csv(
             "normal.csv")
 
@@ -539,12 +539,12 @@ class NormalizationTests(TestCase):
         ]]
 
         filePath = os.path.join(
-            settings.BASE_DIR, 'static\datasets\interpolated_D003_data.csv')
+            settings.BASE_DIR, 'static/datasets/interpolated_D003_data.csv')
         df = pd.read_csv(filePath, encoding='utf-8')
         df = datasetCleaner(df)
 
         model = load_model(os.path.join(
-            settings.BASE_DIR, 'static\lstmModels\D001\\1H_Forecast\\1H_ForecastModel_6_SizeWindow'))
+            settings.BASE_DIR, 'static/lstmModels/D001//1H_Forecast//1H_ForecastModel_6_SizeWindow'))
 
         means = [df['T'].mean(), df['Rn'].mean(), df['H'].mean(),
                  df['P'].mean(), df['CO2'].mean()]
@@ -555,7 +555,7 @@ class NormalizationTests(TestCase):
             measurements[0], means, stds)
         print(normalizedInputForecastSample)
 
-        print('----------------------------------------------------------\n')
+        print('----------------------------------------------------------/n')
 
         inverseInputForecastSample = inverse_forecast_normalize_data(
             normalizedInputForecastSample, means, stds)
@@ -577,15 +577,15 @@ class NormalizationTests(TestCase):
                 df['P'].std(), df['CO2'].std()]
 
 
-        filePath = os.path.join(settings.BASE_DIR, 'static\datasets\interpolated_D003_data.csv')
+        filePath = os.path.join(settings.BASE_DIR, 'static/datasets/interpolated_D003_data.csv')
         df = pd.read_csv(filePath, encoding='utf-8')
         df = datasetCleaner(df)
 
         nonNormalizedModel = load_model(os.path.join(
-            settings.BASE_DIR, 'static\lstmModels\D001\\1H_Forecast\\1H_ForecastModel_6_SizeWindow'))
+            settings.BASE_DIR, 'static/lstmModels/D001//1H_Forecast//1H_ForecastModel_6_SizeWindow'))
 
         normalizedModel = load_model(os.path.join(
-            settings.BASE_DIR, 'static\lstmModels\D001\\1H_Forecast\\normalized\\1H_ForecastModel_6_SizeWindow'))
+            settings.BASE_DIR, 'static/lstmModels/D001//1H_Forecast//normalized//1H_ForecastModel_6_SizeWindow'))
 
         nonNormalizedForecast = nonNormalizedModel.predict(measurements)
         print(nonNormalizedForecast)
@@ -595,3 +595,17 @@ class NormalizationTests(TestCase):
         print("Normalized ", normalizedForecast)
         print("Denormalized ", inverse_normalize_value(
             normalizedForecast, means[1], stds[1]))
+
+    @skip("Its tested")
+    def test_prints(self):
+        
+        filePath = os.path.join(settings.BASE_DIR, 'static/datasets/interpolated_D001_data.csv')
+        df = pd.read_csv(filePath, encoding='utf-8')
+        df = datasetCleaner(df)
+
+        X, y = df_to_X_y(df, 1, 6)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2,shuffle=False)
+        X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.25,shuffle=False) 
+
+
+        print(pd.DataFrame(y_test).head(30))
