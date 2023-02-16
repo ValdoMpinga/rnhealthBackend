@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .MeasurementsSerializer import MeasurementsSerializer
 from .forecastingHoursSerealizer import HoursSerealizer
 from .targetSensorSerializer import TargetSensorSerializer
+from .useNormalizationSerializer import UseNormalizationSerializer
 from django.views import View
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -9,17 +10,30 @@ from rest_framework import status
 import os
 from django.conf import settings
 from keras.models import load_model
-from .algorithms.lstm.lstmHandler import lstmSensorsModelsDetails
-from .algorithms.biLstm.biLstmHandler import biLstmSensorsModelsDetails
+from .algorithms_details_handlers.lstm.lstmHandler import lstmSensorsModelsDetails
+from .algorithms_details_handlers.biLstm.biLstmHandler import biLstmSensorsModelsDetails
 import tensorflow as tf
 import pandas as pd
 
 class ForecastViewClass(View):
     TARGET_SENSOR = None
+    USE_NORMALIZATION = True
     FORECASTING_HOURS = 6
     TARGET_SENSOR_MEANS =[]
     TARGET_SENSOR_STANDARD_DEV =[]
 
+    @api_view(['POST'])
+    def useNormalizationView(request):
+        serializedUseNormalization =  UseNormalizationSerializer(data=request.data)
+        
+        if serializedUseNormalization.is_valid():
+            
+            ForecastViewClass.USE_NORMALIZATION = serializedUseNormalization.data['useNormalization']
+            print(ForecastViewClass.USE_NORMALIZATION)
+            return Response(data=serializedUseNormalization.data['useNormalization'],status=status.HTTP_200_OK)
+        else:
+            # Return a 400 Bad Request response with the errors from the serializer if the serialized data is not valid
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
     @api_view(['POST'])
     def targetSensorView(request):
@@ -59,8 +73,6 @@ class ForecastViewClass(View):
         # Call the lstmSensorsModelsDetails function to get the details of the LSTM sensors models
         sensors_details = lstmSensorsModelsDetails()
         
-        # Get the details of the target sensor from the sensors details
-        target_sensor_details = sensors_details[ForecastViewClass.TARGET_SENSOR]
 
         # Initialize the serializer with the data from the request and set the many attribute to True
         serializedMeasurements = MeasurementsSerializer(
@@ -76,9 +88,19 @@ class ForecastViewClass(View):
             
             # Loop through the forecasting hours
             for hour in range(ForecastViewClass.FORECASTING_HOURS):
-                # Construct the file path for the LSTM model
-                file_path = os.path.join(
-                    settings.BASE_DIR, f"static/lstmModels/{ForecastViewClass.TARGET_SENSOR}//normalized//{hour + 1}H_Forecast//{hour + 1}H_ForecastModel_{target_sensor_details[hour]['bestLag']}_SizeWindow")
+                
+                if ForecastViewClass.USE_NORMALIZATION:#if is checked every time the loop runs, future work to do
+                    # Get the details of the target sensor from the sensors details
+                    target_sensor_details = sensors_details['normalized'][ForecastViewClass.TARGET_SENSOR]
+                    
+                    # Construct the file path for the LSTM model
+                    file_path = os.path.join(
+                        settings.BASE_DIR, f"static/lstmModels/{ForecastViewClass.TARGET_SENSOR}//normalized//{hour + 1}H_Forecast//{hour + 1}H_ForecastModel_{target_sensor_details[hour]['bestLag']}_SizeWindow")
+                else:
+                    target_sensor_details = sensors_details['non_normalized'][ForecastViewClass.TARGET_SENSOR]
+
+                    file_path = os.path.join(
+                        settings.BASE_DIR, f"static/lstmModels/{ForecastViewClass.TARGET_SENSOR}//{hour + 1}H_Forecast//{hour + 1}H_ForecastModel_{target_sensor_details[hour]['bestLag']}_SizeWindow")
 
                 # Call the forecaster function with the target sensor details, measurements, file path, and True flag
                 forecast = forecaster(target_sensor_details[hour]['bestLag'], measurements, file_path, True)
@@ -111,9 +133,6 @@ class ForecastViewClass(View):
         # Call the lstmSensorsModelsDetails function to get the details of the LSTM sensors models
         sensors_details = biLstmSensorsModelsDetails()
         
-        # Get the details of the target sensor from the sensors details
-        target_sensor_details = sensors_details[ForecastViewClass.TARGET_SENSOR]
-
         serializedMeasurements = MeasurementsSerializer(
             data=request.data, many=True)
 
@@ -128,9 +147,18 @@ class ForecastViewClass(View):
             
             # Loop through the forecasting hours
             for hour in range(ForecastViewClass.FORECASTING_HOURS):
-                # Construct the file path for the LSTM model
-                file_path = os.path.join(
-                    settings.BASE_DIR, f"static/bi_lstmModels/{ForecastViewClass.TARGET_SENSOR}//normalized//{hour + 1}H_Forecast//{hour + 1}H_ForecastModel_{target_sensor_details[hour]['bestLag']}_SizeWindow")
+                if ForecastViewClass.USE_NORMALIZATION:#if is checked every time the loop runs, future work to do
+                    # Get the details of the target sensor from the sensors details
+                    target_sensor_details = sensors_details['normalized'][ForecastViewClass.TARGET_SENSOR]
+                    
+                    # Construct the file path for the LSTM model
+                    file_path = os.path.join(
+                        settings.BASE_DIR, f"static/bi_lstmModels/{ForecastViewClass.TARGET_SENSOR}//normalized//{hour + 1}H_Forecast//{hour + 1}H_ForecastModel_{target_sensor_details[hour]['bestLag']}_SizeWindow")
+                else:
+                    target_sensor_details = sensors_details['non_normalized'][ForecastViewClass.TARGET_SENSOR]
+                    
+                    file_path = os.path.join(
+                        settings.BASE_DIR, f"static/bi_lstmModels/{ForecastViewClass.TARGET_SENSOR}//{hour + 1}H_Forecast//{hour + 1}H_ForecastModel_{target_sensor_details[hour]['bestLag']}_SizeWindow")
 
 
             # Call the forecaster function with the target sensor details, measurements, file path, and True flag

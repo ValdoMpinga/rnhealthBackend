@@ -2,13 +2,13 @@ from django.test import TestCase
 import os
 from os.path import exists
 from django.conf import settings
-from .MeasurementsSerializer import MeasurementsSerealizer
+from .MeasurementsSerializer import MeasurementsSerializer
 from keras.models import load_model
 from unittest import skip
 from .forecastingHoursSerealizer import HoursSerealizer
 from datetime import date
 import time
-from .algorithms.lstm.lstmHandler import lstmSensorsModelsDetails
+from .algorithms_details_handlers.lstm.lstmHandler import lstmSensorsModelsDetails
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -462,7 +462,7 @@ class NormalizationTests(TestCase):
 
         print(normalized_df)
 
-    # @skip("Its tested")
+    @skip("Its tested")
     def test_reverseScaler(self):
         filePath = os.path.join(
             settings.BASE_DIR, 'static/datasets/interpolated_D003_data.csv')
@@ -618,3 +618,151 @@ class NormalizationTests(TestCase):
 
 
         print(pd.DataFrame(y_test).head(30))
+        
+    def test_newSensorsDetailsStructure(self):
+        details = {
+        'non-normalized': 
+            {
+        'D001':
+            [
+                {
+                    'hour': 1,
+                    'bestLag': 6,
+                    'error': 33.95,
+
+                },
+                {
+                    'hour': 2,
+                    'bestLag': 12,
+                    'error': 55.63,
+                },
+                {
+                    'hour': 3,
+                    'bestLag': 6,
+                    'error': 68.11,
+                },
+                {
+                    'hour': 4,
+                    'bestLag': 6,
+                    'error': 84.85,
+                },
+                {
+                    'hour': 5,
+                    'bestLag': 7,
+                    'error': 96.67,
+                },
+                {
+                    'hour': 6,
+                    'bestLag': 6,
+                    'error': 107.24,
+                }],
+        'D003':
+            [
+                {
+                    'hour': 1,
+                    'bestLag': 10,
+                    'error': 52,
+
+                },
+                {
+                    'hour': 2,
+                    'bestLag': 10,
+                    'error': 92.58,
+                },
+                {
+                    'hour': 3,
+                    'bestLag': 12,
+                    'error': 112.21,
+                },
+                {
+                    'hour': 4,
+                    'bestLag': 12,
+                    'error': 121.82,
+                },
+                {
+                    'hour': 5,
+                    'bestLag': 11,
+                    'error': 123.75,
+                },
+                {
+                    'hour': 6,
+                    'bestLag': 6,
+                    'error': 139.27,
+                }
+            ]
+        },
+            'normalized': 
+                {
+                    'D001':
+            [
+                {
+                    'hour': 1,
+                    'bestLag': 6,
+                    'error': 33.95,
+
+                },
+                {
+                    'hour': 2,
+                    'bestLag': 12,
+                    'error': 55.63,
+                },
+                {
+                    'hour': 3,
+                    'bestLag': 6,
+                    'error': 68.11,
+                },
+                {
+                    'hour': 4,
+                    'bestLag': 6,
+                    'error': 84.85,
+                },
+                {
+                    'hour': 5,
+                    'bestLag': 7,
+                    'error': 96.67,
+                },
+                {
+                    'hour': 6,
+                    'bestLag': 6,
+                    'error': 107.24,
+                }],
+        'D003':
+            [
+                {
+                    'hour': 1,
+                    'bestLag': 10,
+                    'error': 52,
+
+                },
+                {
+                    'hour': 2,
+                    'bestLag': 10,
+                    'error': 92.58,
+                },
+                {
+                    'hour': 3,
+                    'bestLag': 12,
+                    'error': 112.21,
+                },
+                {
+                    'hour': 4,
+                    'bestLag': 12,
+                    'error': 121.82,
+                },
+                {
+                    'hour': 5,
+                    'bestLag': 11,
+                    'error': 123.75,
+                },
+                {
+                    'hour': 6,
+                    'bestLag': 6,
+                    'error': 139.27,
+                }
+            ]
+                }
+    }
+        
+        
+        
+        print(details['normalized']['D001'])

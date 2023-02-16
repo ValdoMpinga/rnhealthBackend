@@ -4,6 +4,8 @@ from django.conf import settings
 
 def biLstmSensorsModelsDetails():
     details = {
+          'non_normalized': 
+            {
         'D001':
             [
                 {
@@ -71,6 +73,76 @@ def biLstmSensorsModelsDetails():
                     'error': 130.48,
                 }
             ]
+            },
+             'normalized': 
+                {
+                    'D001':
+            [
+                {
+                    'hour': 1,
+                    'bestLag': 9,
+                    'error': 31.72,
+
+                },
+                {
+                    'hour': 2,
+                    'bestLag': 11,
+                    'error': 46.73,
+                },
+                {
+                    'hour': 3,
+                    'bestLag': 11,
+                    'error': 62.00,
+                },
+                {
+                    'hour': 4,
+                    'bestLag': 12,
+                    'error': 75.00,
+                },
+                {
+                    'hour': 5,
+                    'bestLag': 12,
+                    'error': 86.06,
+                },
+                {
+                    'hour': 6,
+                    'bestLag': 12,
+                    'error': 95.97,
+                }],
+        'D003':
+            [
+                {
+                    'hour': 1,
+                    'bestLag': 10,
+                    'error': 52.16,
+                },
+                {
+                    'hour': 2,
+                    'bestLag': 10,
+                    'error': 95.93,
+                },
+                {
+                    'hour': 3,
+                    'bestLag': 12,
+                    'error': 132.42,
+                },
+                {
+                    'hour': 4,
+                    'bestLag': 8,
+                    'error': 164.28,
+                },
+                {
+                    'hour': 5,
+                    'bestLag': 11,
+                    'error': 191.09,
+                },
+                {
+                    'hour': 6,
+                    'bestLag': 11,
+                    'error': 223.90,
+                }
+            ]
+             }
     }
 
     return details

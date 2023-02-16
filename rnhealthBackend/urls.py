@@ -27,7 +27,9 @@ urlpatterns = [
     path('forecast/lstm',ForecastViewClass.lstmForecastView),
     path('forecast/bi-lstm', ForecastViewClass.bi_lstmForecastView),
     path('forecast/target-sensor', ForecastViewClass.targetSensorView),
+    path('forecast/normalization', ForecastViewClass.useNormalizationView),
     
     path('user/create', UsersViewClass.createUserView),
     path('user/create/address', UsersViewClass.createUserAddressView)
 ]
+
