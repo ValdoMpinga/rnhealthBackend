@@ -191,6 +191,8 @@ def forecastDataFormater(serealizedMeasurements, lags):
         # Loop through each measurement
         for measure in serealizedMeasurements[i].values():
             measureArray.append(measure)
+            
+            
 
         # Add the lagged measurement data to the array
         measurementsLagArray[0].append(measureArray.copy())
