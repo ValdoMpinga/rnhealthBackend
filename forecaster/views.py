@@ -17,7 +17,7 @@ import pandas as pd
 
 class ForecastViewClass(View):
     TARGET_SENSOR = None
-    USE_NORMALIZATION = True
+    USE_NORMALIZATION = False
     FORECASTING_HOURS = 6
     TARGET_SENSOR_MEANS =[]
     TARGET_SENSOR_STANDARD_DEV =[]
@@ -103,7 +103,7 @@ class ForecastViewClass(View):
                         settings.BASE_DIR, f"static/lstmModels/{ForecastViewClass.TARGET_SENSOR}//{hour + 1}H_Forecast//{hour + 1}H_ForecastModel_{target_sensor_details[hour]['bestLag']}_SizeWindow")
 
                 # Call the forecaster function with the target sensor details, measurements, file path, and True flag
-                forecast = forecaster(target_sensor_details[hour]['bestLag'], measurements, file_path, True)
+                forecast = forecaster(target_sensor_details[hour]['bestLag'], measurements, file_path, ForecastViewClass.USE_NORMALIZATION)
                 
                 # Append the forecast, hour, and error to the forecasts list
                 forecasts.append(
@@ -162,7 +162,7 @@ class ForecastViewClass(View):
 
 
             # Call the forecaster function with the target sensor details, measurements, file path, and True flag
-                forecast = forecaster(target_sensor_details[hour]['bestLag'], measurements, file_path, True)              
+                forecast = forecaster(target_sensor_details[hour]['bestLag'], measurements, file_path, ForecastViewClass.USE_NORMALIZATION)              
                 
                 # Append the forecast, hour, and error to the forecasts list
                 forecasts.append(
@@ -205,7 +205,7 @@ def forecaster(lags, serealizedMeasurements, AI_modelFilePath, shouldNormalize):
     else:
         # Make the forecast without normalizing the data
         forecast = model.predict(laggedMeasurements)
-
+        print(forecast)
         # Return the forecast
         return forecast[0][0]
     
