@@ -17,7 +17,7 @@ import pandas as pd
 
 class ForecastViewClass(View):
     TARGET_SENSOR = None
-    USE_NORMALIZATION = False
+    USE_NORMALIZATION = True
     FORECASTING_HOURS = 6
     TARGET_SENSOR_MEANS =[]
     TARGET_SENSOR_STANDARD_DEV =[]
