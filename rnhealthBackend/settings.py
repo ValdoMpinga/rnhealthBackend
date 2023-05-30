@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-b*4vd!#7)a-fv8%%zrm#1zq2ilhd59ukvjlo%144u4_o*e6u@=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['172.16.0.0/16', 'rnhealth','rnhealthbackendcontainer','rnhealthBackendContainer']
 
 
 # Application definition
